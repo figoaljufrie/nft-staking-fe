@@ -1,0 +1,1 @@
+file skeleton for staking-hooks
