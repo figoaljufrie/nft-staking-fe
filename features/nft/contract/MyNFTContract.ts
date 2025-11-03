@@ -1,10 +1,19 @@
 import { MyNFT_ABI } from "@/lib/abis/nft/myNFT";
-import { ContractsAddress } from "@/lib/address/addresses";
+import { contractsAddress } from "@/lib/address/addresses";
 import { publicClient } from "@/lib/clients/publicClient";
-import {getContract} from "viem";
+import { walletClient } from "@/lib/clients/walletClient";
+import { getContract } from "viem";
 
-export const MyNFTContract = getContract({
-  address: ContractsAddress.MyNFT_Proxy as `0x${string}`,
+export const myNFTReadContract = getContract({
+  address: contractsAddress.myNFT_Proxy as `0x${string}`,
   abi: MyNFT_ABI,
   client: publicClient,
 });
+
+export const myNFTWriteContract = walletClient
+  ? getContract({
+      address: contractsAddress.myNFT_Proxy as `0x${string}`,
+      abi: MyNFT_ABI,
+      client: walletClient,
+    })
+  : undefined;
