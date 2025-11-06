@@ -1,6 +1,7 @@
 "use client";
 
 import { useGLTF } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 
@@ -11,9 +12,7 @@ interface ModelProps {
 export default function Model({ scrollProgress = 0 }: ModelProps) {
   const groupRef = useRef<THREE.Group>(null);
 
-  const { scene, nodes, materials } = useGLTF(
-    "/blender/moistRetry2.gltf"
-  );
+  const { scene, nodes, materials } = useGLTF("/blender/moistRetry2.gltf");
 
   useEffect(() => {
     console.log("Model loaded!");
@@ -26,7 +25,6 @@ export default function Model({ scrollProgress = 0 }: ModelProps) {
       }
     });
   }, [scene, nodes, materials]);
-
 
   //Optimize material for performance.
   useEffect(() => {
@@ -54,6 +52,25 @@ export default function Model({ scrollProgress = 0 }: ModelProps) {
     });
   }, [scene]);
 
+  useFrame(() => {
+    if (!groupRef.current) return;
+
+    //Rotate model as user scrolls:
+    groupRef.current.rotation.y = scrollProgress * Math.PI * 2;
+
+    if (scrollProgress > 0.33 && scrollProgress < 0.66) {
+      const t = (scrollProgress - 0.33) / 0.33;
+      const scale = 1 + t * 0.3; // Scale from 1 to 1.3
+      groupRef.current.scale.setScalar(scale);
+    } else {
+      groupRef.current.scale.setScalar(1);
+    }
+
+    // Subtle bounce animation
+    const bounce = Math.sin(scrollProgress * Math.PI * 4) * 0.05;
+    groupRef.current.position.y = bounce;
+  });
+
   return (
     <group ref={groupRef}>
       <primitive
@@ -66,4 +83,4 @@ export default function Model({ scrollProgress = 0 }: ModelProps) {
   );
 }
 
-useGLTF.preload("/blender/moistRetry2.gltf")
+useGLTF.preload("/blender/moistRetry2.gltf");

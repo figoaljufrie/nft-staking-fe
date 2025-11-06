@@ -2,18 +2,24 @@
 
 import {
   Environment,
-  OrbitControls,
-  PerspectiveCamera,
+  PerspectiveCamera
 } from "@react-three/drei";
 import Model from "./models";
+import ScrollAnimationController from "./scrollAnimateController";
 
-export default function SceneSetup() {
+interface SceneProps {
+  scrollProgress: number;
+}
+
+export default function SceneSetup({ scrollProgress }: SceneProps) {
   return (
     <>
       {/*
       Camera position
       */}
       <PerspectiveCamera makeDefault position={[0, 2, 5]} fov={75} />
+      {/*Scroll logics controller */}
+      <ScrollAnimationController scrollProgress={scrollProgress} />
 
       {/*
       Lighting setup
@@ -50,17 +56,7 @@ export default function SceneSetup() {
       */}
       <Environment preset="sunset" />
 
-      {/*grid helper:to help us see where the 'ground' is, remove later if not needed.*/}
-      <gridHelper args={[20, 20]} />
-      <Model />
-      {/*Temporary control; remove when scroll implemented*/}
-      <OrbitControls
-        enableZoom={true}
-        enablePan={false}
-        enableRotate={true}
-        minDistance={2}
-        maxDistance={10}
-      />
+      <Model scrollProgress={scrollProgress} />
     </>
   );
 }

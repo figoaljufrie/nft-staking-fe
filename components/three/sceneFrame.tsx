@@ -5,24 +5,30 @@ import { Suspense } from "react";
 import LoadingFallback from "./LoadingFallback";
 import SceneSetup from "./sceneSetup";
 
-export default function SceneFrame() {
+interface Props {
+  scrollProgress: number;
+}
+
+export default function SceneFrame({ scrollProgress }: Props) {
   return (
-    <div id="r3f-root" className="w-full h-screen sticky top-0">
-      <Canvas
-        camera={{ position: [0, 2, 5], fov: 75 }}
-        gl={{
-          antialias: true,
-          alpha: true,
-          powerPreference: "high-performance",
-        }}
-        dpr={[1, 2]}
-        shadows
-      >
-        <Suspense fallback={<LoadingFallback />}>
-          <SceneSetup />
-        </Suspense>
-      </Canvas>
-      3D scene Placeholder
+    <div id="r3f-root" className="w-full w-full h-[300vh]">
+      <div className="sticky top-0 h-screen">
+        <Canvas
+          camera={{ position: [0, 2, 5], fov: 75 }}
+          gl={{
+            antialias: true,
+            alpha: true,
+            powerPreference: "high-performance",
+          }}
+          dpr={[1, 2]}
+          shadows
+        >
+          <Suspense fallback={<LoadingFallback />}>
+            <SceneSetup scrollProgress={scrollProgress} />
+          </Suspense>
+        </Canvas>
+        3D scene Placeholder
+      </div>
     </div>
   );
 }

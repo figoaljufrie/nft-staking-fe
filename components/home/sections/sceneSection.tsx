@@ -2,10 +2,14 @@
 
 import SceneFrame from "@/components/three/sceneFrame";
 
-export default function SceneSection() {
+interface SceneSectionProps {
+  scrollProgress: number;
+}
+
+export default function SceneSection({ scrollProgress }: SceneSectionProps) {
   return (
-    <section id="scene-section" className="px-6 bg-white">
-      <SceneFrame />
+    <section id="scene-section" className="bg-white">
+      <SceneFrame scrollProgress={scrollProgress} />
     </section>
   );
 }
