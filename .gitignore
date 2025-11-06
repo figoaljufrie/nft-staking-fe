@@ -45,3 +45,17 @@ local env files
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# 3D model exports
+*.gltf
+*.glb
+*.bin
+*.blend
+*.fbx
+*.obj
+*.mtl
+*.png
+*.jpg
+*.jpeg
+*.exr
+*.hdr
