@@ -2,110 +2,104 @@
 
 import { useRef, useEffect } from "react";
 import gsap from "gsap";
-import ScrollTrigger from "gsap/src/ScrollTrigger";
+import ScrollTrigger from "gsap/ScrollTrigger";
 import { useScrollProgress } from "@/hooks/gsap/useScrollProgress";
 import Header from "@/components/home/layout/header";
 import Footer from "@/components/home/layout/footer";
-import HeroSection from "@/components/home/sections/heroSection";
 import SceneSection from "@/components/home/sections/sceneSection";
-import ScrollRevealSection from "@/components/home/sections/ScrollRevealSection";
-import FooterInfoSection from "@/components/home/sections/footerSection";
-import { LenisInit, destroyLenis } from "@/lib/lenis/lenis";
 import ContentOverlay from "@/components/home/overlay/contentOverlay";
+import { LenisInit, destroyLenis } from "@/lib/lenis/lenis";
+
 gsap.registerPlugin(ScrollTrigger);
 
 export default function HomeContainer() {
-  const revealSection = useRef<HTMLDivElement | null>(null);
-  const pinnedBox = useRef<HTMLDivElement | null>(null);
-  const scrollProgress = useScrollProgress("#scene-section");
+  const scrollProgress = useScrollProgress();
 
   useEffect(() => {
+    // Initialize Lenis smooth scroll
     const lenis = LenisInit();
+
+    // Connect Lenis with GSAP ScrollTrigger
     lenis.on("scroll", () => {
       ScrollTrigger.update();
     });
 
+    // Add Lenis to GSAP ticker
     gsap.ticker.add((time) => {
       lenis.raf(time * 1000);
     });
 
     gsap.ticker.lagSmoothing(0);
 
-    const ctx = gsap.context(() => {
-      //revealing animations
-      gsap.utils.toArray<HTMLElement>(".reveal-item").forEach((item) => {
-        gsap.fromTo(
-          item,
-          { opacity: 0, y: 100, scale: 0.8 },
-          {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 1,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: item,
-              start: "top 80%",
-              end: "bottom 60%",
-              toggleActions: "play none none reverse",
-            },
-          }
-        );
-      });
+    // Refresh ScrollTrigger after setup
+    ScrollTrigger.refresh();
 
-      gsap.fromTo(
-        pinnedBox.current,
-        { scale: 0.8, opacity: 0 },
-        {
-          scale: 1,
-          opacity: 1,
-          duration: 1.2,
-          scrollTrigger: {
-            trigger: pinnedBox.current,
-            start: "top-center",
-            end: "+=400",
-            scrub: true,
-            pin: true,
-            pinSpacing: true,
-          },
-        }
-      );
-    });
     return () => {
-      ctx.revert();
+      gsap.ticker.remove((time) => {
+        lenis.raf(time * 1000);
+      });
       destroyLenis();
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
   }, []);
 
+  useEffect(() => {
+    console.log("Scroll Progress:", scrollProgress);
+  }, [scrollProgress]);
+
   return (
-    <div className="relative min-h-screen">
-      {/* LAYER 1: 3D Background (z-index: 0) */}
-      <div className="fixed inset-0 z-0">
-        <SceneSection scrollProgress={scrollProgress} />
-      </div>
+    <div className="relative w-full bg-black">
+      {/* Scrollable Content - 1000vh for 10 sections */}
+      <div className="relative">
+        {/* LAYER 1: 3D Background (Fixed Position) */}
+        <div className="fixed inset-0 z-0">
+          <SceneSection scrollProgress={scrollProgress} />
+        </div>
 
-      {/* LAYER 2: Content on top (z-index: 10) */}
-      <div className="relative z-10">
-        <Header />
+        {/* LAYER 2: Content Overlay (Fixed Position) */}
+        <div className="fixed inset-0 z-10 pointer-events-none">
+          <ContentOverlay scrollProgress={scrollProgress} />
+        </div>
 
-        <main className="w-full">
-          {/* Spacer to allow scrolling through 3D */}
-          <div className="h-[300vh]">
-            <ContentOverlay scrollProgress={scrollProgress} />
+        {/* SPACER: Creates scroll distance - 1000vh = 10 sections */}
+        <div style={{ height: "1000vh", position: "relative", zIndex: 1 }} />
+
+        {/* Progress Indicator */}
+        <div className="fixed bottom-8 left-8 z-50 pointer-events-none">
+          <div className="flex items-center gap-3">
+            <div className="w-2 h-32 bg-white/20 rounded-full overflow-hidden">
+              <div
+                className="w-full bg-gradient-to-t from-green-400 to-blue-500 transition-all duration-300"
+                style={{ height: `${scrollProgress * 100}%` }}
+              />
+            </div>
+            <span className="text-white text-sm font-mono">
+              {Math.round(scrollProgress * 100)}%
+            </span>
           </div>
+        </div>
 
-          {/* Other sections AFTER 3D */}
-          <div className="bg-white dark:bg-zinc-900">
-            <HeroSection />
-            <ScrollRevealSection
-              revealRef={revealSection}
-              pinnedRef={pinnedBox}
-            />
-            <FooterInfoSection />
+        {/* Section Indicator */}
+        <div className="fixed top-8 left-8 z-50 pointer-events-none">
+          <div className="bg-black/60 backdrop-blur-xl px-4 py-2 rounded-lg border border-white/20">
+            <p className="text-white text-sm font-mono">
+              Section {Math.ceil(scrollProgress * 10) || 1}/10
+            </p>
           </div>
-        </main>
+        </div>
 
-        <Footer />
+        {/* Instructions */}
+        <div className="fixed top-8 right-8 z-50 pointer-events-none max-w-xs">
+          <div className="bg-black/60 backdrop-blur-xl p-4 rounded-lg border border-white/20">
+            <h3 className="text-white text-sm font-bold mb-2">
+              📸 Camera Journey
+            </h3>
+            <p className="text-gray-300 text-xs">
+              Scroll to explore 10 different camera positions around the 3D
+              scene. Objects stay still while the camera moves smoothly.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );

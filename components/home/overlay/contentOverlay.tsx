@@ -7,11 +7,13 @@ interface Props {
 }
 
 export default function ContentOverlay({ scrollProgress }: Props) {
-  // Calculate which content section to show
+  // Calculate which content section to show (updated for 10 sections)
   const getSection = () => {
-    if (scrollProgress < 0.25) return "hero";
-    if (scrollProgress < 0.5) return "features";
-    if (scrollProgress < 0.75) return "rewards";
+    if (scrollProgress < 0.1) return "hero";
+    if (scrollProgress < 0.3) return "features";
+    if (scrollProgress < 0.5) return "rewards";
+    if (scrollProgress < 0.7) return "details";
+    if (scrollProgress < 0.9) return "preview";
     return "cta";
   };
 
@@ -19,7 +21,7 @@ export default function ContentOverlay({ scrollProgress }: Props) {
 
   return (
     <div className="fixed inset-0 pointer-events-none">
-      {/* Hero Section (0-25%) */}
+      {/* Hero Section (0-10%) */}
       <AnimatePresence>
         {activeSection === "hero" && (
           <motion.div
@@ -54,7 +56,7 @@ export default function ContentOverlay({ scrollProgress }: Props) {
         )}
       </AnimatePresence>
 
-      {/* Features Section (25-50%) */}
+      {/* Features Section (10-30%) */}
       <AnimatePresence>
         {activeSection === "features" && (
           <motion.div
@@ -90,7 +92,7 @@ export default function ContentOverlay({ scrollProgress }: Props) {
         )}
       </AnimatePresence>
 
-      {/* Rewards Section (50-75%) */}
+      {/* Rewards Section (30-50%) */}
       <AnimatePresence>
         {activeSection === "rewards" && (
           <motion.div
@@ -122,7 +124,51 @@ export default function ContentOverlay({ scrollProgress }: Props) {
         )}
       </AnimatePresence>
 
-      {/* CTA Section (75-100%) */}
+      {/* Details Section (50-70%) */}
+      <AnimatePresence>
+        {activeSection === "details" && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.8 }}
+            className="absolute left-1/2 -translate-x-1/2 top-1/3 max-w-md"
+          >
+            <div className="bg-black/60 backdrop-blur-xl p-8 rounded-2xl border border-white/20">
+              <h2 className="text-3xl font-bold text-white mb-4">
+                How It Works
+              </h2>
+              <p className="text-gray-200 text-lg">
+                Simple 3-step process to start earning
+              </p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Preview Section (70-90%) */}
+      <AnimatePresence>
+        {activeSection === "preview" && (
+          <motion.div
+            initial={{ opacity: 0, y: 100 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -100 }}
+            transition={{ duration: 0.8 }}
+            className="absolute left-1/2 -translate-x-1/2 bottom-1/4 max-w-md"
+          >
+            <div className="bg-black/60 backdrop-blur-xl p-8 rounded-2xl border border-white/20 text-center">
+              <h2 className="text-3xl font-bold text-white mb-4">
+                Almost There...
+              </h2>
+              <p className="text-gray-200 text-lg">
+                Keep scrolling for the final reveal
+              </p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* CTA Section (90-100%) */}
       <AnimatePresence>
         {activeSection === "cta" && (
           <motion.div
@@ -148,21 +194,6 @@ export default function ContentOverlay({ scrollProgress }: Props) {
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* Scroll Progress Indicator */}
-      <div className="fixed bottom-8 left-8 z-50">
-        <div className="flex items-center gap-3">
-          <div className="w-2 h-32 bg-white/20 rounded-full overflow-hidden">
-            <motion.div
-              className="w-full bg-gradient-to-t from-green-400 to-blue-500"
-              style={{ height: `${scrollProgress * 100}%` }}
-            />
-          </div>
-          <span className="text-white text-sm font-mono">
-            {Math.round(scrollProgress * 100)}%
-          </span>
-        </div>
-      </div>
     </div>
   );
 }

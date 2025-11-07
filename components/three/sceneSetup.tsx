@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  Environment,
-  PerspectiveCamera
-} from "@react-three/drei";
+import { Environment, PerspectiveCamera } from "@react-three/drei";
 import Model from "./models";
 import ScrollAnimationController from "./scrollAnimateController";
 
@@ -14,36 +11,28 @@ interface SceneProps {
 export default function SceneSetup({ scrollProgress }: SceneProps) {
   return (
     <>
-      {/*
-      Camera position
-      */}
-      <PerspectiveCamera makeDefault position={[0, 2, 5]} fov={75} />
-      {/*Scroll logics controller */}
+      {/* Camera - Initial position matches first scroll position */}
+      <PerspectiveCamera makeDefault position={[0, 3, 8]} fov={75} />
+
+      {/* Scroll animation controller */}
       <ScrollAnimationController scrollProgress={scrollProgress} />
 
-      {/*
-      Lighting setup
-      */}
-
-      {/*
-      ambient: soft light
-      */}
+      {/* Lighting setup */}
       <ambientLight intensity={0.4} />
 
-      {/*
-      Directional:like sunlight, casts shadows
-      */}
       <directionalLight
         position={[10, 10, 5]}
         intensity={1}
         castShadow
-        shadow-mapSize-width={1024}
-        shadow-mapSize-height={1024}
+        shadow-mapSize-width={2048}
+        shadow-mapSize-height={2048}
+        shadow-camera-far={50}
+        shadow-camera-left={-10}
+        shadow-camera-right={10}
+        shadow-camera-top={10}
+        shadow-camera-bottom={-10}
       />
 
-      {/*
-      Spotlight:focused beam in certain ways
-      */}
       <spotLight
         position={[-10, 10, -5]}
         angle={0.3}
@@ -51,15 +40,12 @@ export default function SceneSetup({ scrollProgress }: SceneProps) {
         intensity={0.5}
         castShadow
       />
-      {/*
-      HDR Environment:(makes metals / glasss looks realistic)
-      */}
+
+      {/* HDR Environment */}
       <Environment preset="sunset" />
 
+      {/* Your 3D Model */}
       <Model scrollProgress={scrollProgress} />
     </>
   );
 }
-
-/*@note*/
-//Positions are like x, y, x axis.
