@@ -4,6 +4,7 @@ import { Canvas } from "@react-three/fiber";
 import { Suspense } from "react";
 import LoadingFallback from "./LoadingFallback";
 import SceneSetup from "./sceneSetup";
+import * as THREE from "three";
 
 interface Props {
   scrollProgress: number;
@@ -11,25 +12,26 @@ interface Props {
 
 export default function SceneFrame({ scrollProgress }: Props) {
   return (
-    <div id="r3f-root" className="w-full w-full h-[300vh]">
-      <div className="sticky top-0 h-screen">
+
+      <div className="w-full h-full">
         <Canvas
           camera={{ position: [0, 2, 5], fov: 75 }}
           gl={{
             antialias: true,
             alpha: true,
             powerPreference: "high-performance",
+            toneMapping: THREE.ACESFilmicToneMapping,
+            toneMappingExposure: 1,
           }}
-          dpr={[1, 2]}
+          dpr={[1.5, 2]}
           shadows
         >
           <Suspense fallback={<LoadingFallback />}>
             <SceneSetup scrollProgress={scrollProgress} />
           </Suspense>
         </Canvas>
-        3D scene Placeholder
       </div>
-    </div>
+    
   );
 }
 

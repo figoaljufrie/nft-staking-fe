@@ -11,6 +11,7 @@ import SceneSection from "@/components/home/sections/sceneSection";
 import ScrollRevealSection from "@/components/home/sections/ScrollRevealSection";
 import FooterInfoSection from "@/components/home/sections/footerSection";
 import { LenisInit, destroyLenis } from "@/lib/lenis/lenis";
+import ContentOverlay from "@/components/home/overlay/contentOverlay";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function HomeContainer() {
@@ -77,15 +78,35 @@ export default function HomeContainer() {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      {/* <Header /> */}
-      <main className="w-full">
-        {/* <HeroSection /> */}
+    <div className="relative min-h-screen">
+      {/* LAYER 1: 3D Background (z-index: 0) */}
+      <div className="fixed inset-0 z-0">
         <SceneSection scrollProgress={scrollProgress} />
-        {/* <ScrollRevealSection revealRef={revealSection} pinnedRef={pinnedBox} /> */}
-        {/* <FooterInfoSection /> */}
-      </main>
-      {/* <Footer /> */}
+      </div>
+
+      {/* LAYER 2: Content on top (z-index: 10) */}
+      <div className="relative z-10">
+        <Header />
+
+        <main className="w-full">
+          {/* Spacer to allow scrolling through 3D */}
+          <div className="h-[300vh]">
+            <ContentOverlay scrollProgress={scrollProgress} />
+          </div>
+
+          {/* Other sections AFTER 3D */}
+          <div className="bg-white dark:bg-zinc-900">
+            <HeroSection />
+            <ScrollRevealSection
+              revealRef={revealSection}
+              pinnedRef={pinnedBox}
+            />
+            <FooterInfoSection />
+          </div>
+        </main>
+
+        <Footer />
+      </div>
     </div>
   );
 }

@@ -11,7 +11,7 @@ export function useScrollProgress(selector = "#r3f-root") {
       trigger: selector,
       start: "top bottom",
       end: "bottom top",
-      scrub: true, // smooth scrubbing
+      scrub: 0.5, // smooth scrubbing
       onUpdate: (self) => setProgress(self.progress),
     });
     return () => scrollTrig.kill();
