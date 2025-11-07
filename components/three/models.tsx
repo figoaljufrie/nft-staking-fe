@@ -57,44 +57,18 @@ export default function Model({ scrollProgress = 0 }: ModelProps) {
     });
   }, [scene]);
 
-  // components/three/models.tsx - More animations
-useFrame(() => {
-  if (!groupRef.current) return;
+  // Keep model mostly stationary - only subtle rotation
+  useFrame(() => {
+    if (!groupRef.current) return;
 
-  // Continuous rotation (slower)
-  groupRef.current.rotation.y = scrollProgress * Math.PI * 4; // 2 full rotations
+    // Very subtle rotation so model doesn't distract from camera movement
+    groupRef.current.rotation.y =
+      Math.sin(scrollProgress * Math.PI * 0.5) * 0.1;
 
-  // Scale changes at different points
-  let scale = 1;
-  if (scrollProgress < 0.3) {
-    // Grow in beginning
-    scale = 1 + scrollProgress * 0.3;
-  } else if (scrollProgress > 0.3 && scrollProgress < 0.6) {
-    // Scale up in middle
-    const t = (scrollProgress - 0.3) / 0.3;
-    scale = 1.3 + t * 0.2;
-  } else if (scrollProgress > 0.6 && scrollProgress < 0.8) {
-    // Scale down
-    const t = (scrollProgress - 0.6) / 0.2;
-    scale = 1.5 - t * 0.3;
-  } else {
-    // Final size
-    scale = 1.2;
-  }
-  groupRef.current.scale.setScalar(scale);
-
-  // Floating animation (continuous)
-  const float = Math.sin(scrollProgress * Math.PI * 6) * 0.1;
-  groupRef.current.position.y = float;
-
-  // Tilt effect in middle section
-  if (scrollProgress > 0.4 && scrollProgress < 0.7) {
-    const t = (scrollProgress - 0.4) / 0.3;
-    groupRef.current.rotation.x = Math.sin(t * Math.PI) * 0.3;
-  } else {
-    groupRef.current.rotation.x = 0;
-  }
-});
+    // Optional: Very subtle floating
+    const float = Math.sin(scrollProgress * Math.PI * 2) * 0.05;
+    groupRef.current.position.y = float;
+  });
 
   return (
     <group ref={groupRef}>
