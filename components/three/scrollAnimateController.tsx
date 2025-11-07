@@ -1,3 +1,4 @@
+// components/three/scrollAnimateController.tsx - MORE POSITIONS
 "use client";
 
 import { useFrame, useThree } from "@react-three/fiber";
