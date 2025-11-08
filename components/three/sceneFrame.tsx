@@ -3,7 +3,7 @@
 import { Canvas } from "@react-three/fiber";
 import { Suspense } from "react";
 import LoadingFallback from "./LoadingFallback";
-import SceneSetup from "./sceneSetup";
+import SceneSetup from "./setup/sceneSetup";
 import * as THREE from "three";
 
 interface Props {
@@ -12,26 +12,25 @@ interface Props {
 
 export default function SceneFrame({ scrollProgress }: Props) {
   return (
-
-      <div className="w-full h-full">
-        <Canvas
-          camera={{ position: [0, 2, 5], fov: 75 }}
-          gl={{
-            antialias: true,
-            alpha: true,
-            powerPreference: "high-performance",
-            toneMapping: THREE.ACESFilmicToneMapping,
-            toneMappingExposure: 1,
-          }}
-          dpr={[1.5, 2]}
-          shadows
-        >
-          <Suspense fallback={<LoadingFallback />}>
-            <SceneSetup scrollProgress={scrollProgress} />
-          </Suspense>
-        </Canvas>
-      </div>
-    
+    <div className="w-full h-full">
+      <Canvas
+        camera={{ position: [0, 2, 5], fov: 75 }}
+        gl={{
+          antialias: true,
+          alpha: true,
+          powerPreference: "high-performance",
+          toneMapping: THREE.ACESFilmicToneMapping,
+          toneMappingExposure: 1.2, // Slightly brighter
+        }}
+        dpr={[1.5, 2]}
+        shadows
+        style={{ background: "transparent" }}
+      >
+        <Suspense fallback={<LoadingFallback />}>
+          <SceneSetup scrollProgress={scrollProgress} />
+        </Suspense>
+      </Canvas>
+    </div>
   );
 }
 
