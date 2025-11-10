@@ -1,15 +1,14 @@
 "use client";
 
-import ContentOverlay from "@/components/home/overlay/contentOverlay";
+import Header from "@/components/home/layout/header";
+import { ProgressBar } from "@/components/home/overlay/elements/progressBar";
+import { SectionIndicator } from "@/components/home/overlay/elements/sectionIndicator";
 import SceneSection from "@/components/home/overlay/sections/sceneSection";
 import { useScrollProgress } from "@/hooks/gsap/useScrollProgress";
 import { LenisInit, destroyLenis } from "@/lib/lenis/lenis";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { useEffect } from "react";
-import { ProgressBar } from "@/components/home/overlay/elements/progressBar";
-import { SectionIndicator } from "@/components/home/overlay/elements/sectionIndicator";
-import { Instructions } from "@/components/home/overlay/elements/instructions";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -44,29 +43,34 @@ export default function HomeContainer() {
     };
   }, []);
 
-  useEffect(() => {}, [scrollProgress]);
-
   return (
-    <div className="relative w-full" style={{ background: "transparent" }}>
-      {/* Scrollable Content - 1000vh for 10 sections */}
+    <div className="relative w-full bg-white">
+      {/* Scrollable Content */}
       <div className="relative">
-        {/* LAYER 1: 3D Background */}
-        <div className="fixed inset-0 z-0">
+        {/* LAYER 1: 3D Background - White */}
+        <div className="fixed inset-0 z-0 bg-white">
+          <Header />
           <SceneSection scrollProgress={scrollProgress} />
         </div>
 
         {/* LAYER 2: Content Overlay */}
-        <div className="fixed inset-0 z-10 pointer-events-none">
+        {/* <div className="fixed inset-0 z-10 pointer-events-none">
           <ContentOverlay scrollProgress={scrollProgress} />
-        </div>
+        </div> */}
 
-        {/* SPACER */}
-        <div style={{ height: "1000vh", position: "relative", zIndex: 1 }} />
+        {/* SPACER - FIXED: Added pointer-events-none to allow clicks through */}
+        <div 
+          style={{ 
+            height: "1000vh", 
+            position: "relative", 
+            zIndex: 1,
+            pointerEvents: "none" // ✅ THIS IS THE FIX!
+          }} 
+        />
 
         {/* UI Elements */}
         <ProgressBar scrollProgress={scrollProgress} />
         <SectionIndicator scrollProgress={scrollProgress} />
-        <Instructions />
       </div>
     </div>
   );

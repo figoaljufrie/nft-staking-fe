@@ -12,7 +12,7 @@ export default function PreviewSection() {
       className="absolute left-1/2 -translate-x-1/2 bottom-1/4 max-w-md"
     >
       <div className="bg-white/30 backdrop-blur-xl p-8 rounded-2xl border border-white/20 text-center">
-        <h2 className="text-3xl font-bold text-white mb-4">Almost There...</h2>
+        <h2 className="text-3xl font-bold text-black mb-4 font-mono">Almost There...</h2>
         <p className="text-gray-200 text-lg">
           Keep scrolling for the final reveal
         </p>
