@@ -10,7 +10,7 @@ export default function SceneSection({ scrollProgress }: SceneSectionProps) {
   return (
     <section
       id="scene-section"
-      className="w-full h-screen bg-gradient-to-b from-black via-purple-900/20 to-black"
+      className="w-full h-screen bg-white"
     >
       <SceneFrame scrollProgress={scrollProgress} />
     </section>

@@ -3,5 +3,6 @@
 import { PerspectiveCamera } from "@react-three/drei";
 
 export function CameraSetup() {
-  return <PerspectiveCamera makeDefault position={[0, 3, 8]} fov={75} />;
+  // Static camera - will stay in place
+  return <PerspectiveCamera makeDefault position={[0, 2, 5]} fov={75} />;
 }

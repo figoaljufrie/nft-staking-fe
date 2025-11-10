@@ -1,11 +1,9 @@
 "use client";
 
-import BackgroundPlane from "../backgroundPlane";
-import ScrollAnimationController from "../scrollAnimateController";
 import Model from "../../three/models/models";
 import { CameraSetup } from "./cameraSetup";
-import { EnvironmentSetup } from "./environmentSetup";
 import { LightingSetup } from "./lightingSetup";
+import { EnvironmentSetup } from "./environmentSetup";
 
 interface SceneProps {
   scrollProgress: number;
@@ -14,22 +12,15 @@ interface SceneProps {
 export default function SceneSetup({ scrollProgress }: SceneProps) {
   return (
     <>
-      {/* Camera */}
+      {/* Static Camera */}
       <CameraSetup />
 
-      {/* Scroll Animation */}
-      <ScrollAnimationController scrollProgress={scrollProgress} />
+      {/* Basic Lighting */}
+      <LightingSetup/>
 
-      {/* Background Plane */}
-      <BackgroundPlane />
-
-      {/* Lighting Setup */}
-      <LightingSetup />
-
-      {/* Environment */}
       <EnvironmentSetup />
 
-      {/* 3D Model */}
+      {/* 3D Model - Only Cylinder.001 */}
       <Model scrollProgress={scrollProgress} />
     </>
   );

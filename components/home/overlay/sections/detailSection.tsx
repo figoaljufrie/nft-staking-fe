@@ -12,7 +12,7 @@ export default function DetailsSection() {
       className="absolute left-1/2 -translate-x-1/2 top-1/3 max-w-md"
     >
       <div className="bg-white/30 backdrop-blur-xl p-8 rounded-2xl border border-white/20">
-        <h2 className="text-3xl font-bold text-white mb-4">How It Works</h2>
+        <h2 className="text-3xl font-bold text-black mb-4 font-mono">How It Works</h2>
         <p className="text-gray-200 text-lg">
           Simple 3-step process to start earning
         </p>

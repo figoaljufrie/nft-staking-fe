@@ -11,7 +11,7 @@ export default function Header() {
 
   return (
     <header className="w-full sticky top-0 z-40 bg-white backdrop-blur">
-      <nav className="max-w-screen mx-4 py-3 flex justify-between items-center text-black">
+      <nav className="max-w-screen mx-4 py-3 flex justify-between items-center text-black font-mono">
         <div className="flex items-center gap-4">
           <div className="font-bold text-lg">Staking Project</div>
           <NavigationMenu />
