@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence } from "framer-motion";
-import HeroSection from "./sections/heroSection";
+import { HeroSection } from "./sections/hero/heroSection";
 import FeaturesSection from "./sections/featuresSection";
 import RewardsSection from "./sections/RewardsSection";
 import DetailsSection from "./sections/detailSection";
@@ -15,7 +15,7 @@ interface Props {
 export default function ContentOverlay({ scrollProgress }: Props) {
   // Calculate which content section to show (updated for 10 sections)
   const getSection = () => {
-    if (scrollProgress < 0.1) return "hero";
+    if (scrollProgress < 1) return "hero";
     if (scrollProgress < 0.3) return "features";
     if (scrollProgress < 0.5) return "rewards";
     if (scrollProgress < 0.7) return "details";
@@ -28,9 +28,11 @@ export default function ContentOverlay({ scrollProgress }: Props) {
   return (
     <div className="fixed inset-0 pointer-events-none">
       <AnimatePresence>
-        {activeSection === "hero" && <HeroSection />}
+        {activeSection === "hero" && (
+          <HeroSection scrollProgress={scrollProgress} />
+        )}
       </AnimatePresence>
-      <AnimatePresence>
+      {/* <AnimatePresence>
         {activeSection === "features" && <FeaturesSection />}
       </AnimatePresence>
       <AnimatePresence>
@@ -44,7 +46,7 @@ export default function ContentOverlay({ scrollProgress }: Props) {
       </AnimatePresence>
       <AnimatePresence>
         {activeSection === "cta" && <CTASection />}
-      </AnimatePresence>
+      </AnimatePresence> */}
     </div>
   );
 }

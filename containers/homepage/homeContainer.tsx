@@ -9,6 +9,7 @@ import { LenisInit, destroyLenis } from "@/lib/lenis/lenis";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { useEffect } from "react";
+import ContentOverlay from "@/components/home/overlay/contentOverlay";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -54,9 +55,9 @@ export default function HomeContainer() {
         </div>
 
         {/* LAYER 2: Content Overlay */}
-        {/* <div className="fixed inset-0 z-10 pointer-events-none">
+        <div className="fixed inset-0 z-50 pointer-events-none">
           <ContentOverlay scrollProgress={scrollProgress} />
-        </div> */}
+        </div>
 
         {/* SPACER - FIXED: Added pointer-events-none to allow clicks through */}
         <div 
