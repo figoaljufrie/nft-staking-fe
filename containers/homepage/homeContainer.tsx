@@ -62,10 +62,10 @@ export default function HomeContainer() {
         {/* SPACER - FIXED: Added pointer-events-none to allow clicks through */}
         <div 
           style={{ 
-            height: "1000vh", 
+            height: "2000vh", 
             position: "relative", 
             zIndex: 1,
-            pointerEvents: "none" // ✅ THIS IS THE FIX!
+            pointerEvents: "none" 
           }} 
         />
 

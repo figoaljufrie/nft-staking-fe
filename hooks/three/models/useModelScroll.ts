@@ -12,7 +12,7 @@ export function useModelScroll({ modelGroupRef, scrollProgress }: ScrollParams) 
     if (!modelGroupRef.current) return;
 
     const start = 0;
-    const end = 0.19;
+    const end = 0.10;
     const clamped = THREE.MathUtils.clamp((scrollProgress - start) / (end - start), 0, 1);
 
     const targetX = THREE.MathUtils.lerp(0, -18, clamped);

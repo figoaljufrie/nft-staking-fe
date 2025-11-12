@@ -27,11 +27,12 @@ export function HeroText({
     const direction = scrollProgress > prevScrollRef.current ? "down" : "up";
     prevScrollRef.current = scrollProgress;
 
+    // Original timing - now scrollProgress goes 0-1 for hero section only
     const headerFadeIn = { start: 0.05, end: 0.12 };
-    const headerReveal = { start: 0.08, end: 0.35 };
+    const headerReveal = { start: 0.10, end: 0.35 };
     const paragraphFadeIn = { start: 0.32, end: 0.38 };
-    const paragraphReveal = { start: 0.36, end: 0.65 };
-    const fadeOut = { start: 0.75, end: 0.82 };
+    const paragraphReveal = { start: 0.40, end: 0.65 };
+    const fadeOut = { start: 0.88, end: 0.95 };
 
     const headerProgress = gsap.utils.clamp(
       0,
