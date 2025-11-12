@@ -86,11 +86,11 @@ export function useHeroAnimation(
       paragraphTimeline.current
         ?.fromTo(
           word,
-          { y: 20, opacity: 0, filter: "blur(2px)" },
+          { y: 20, opacity: 0, filter: "blur(12px)" },
           {
             y: 0,
             opacity: 1,
-            filter: "blur(0px)",
+            filter: "blur(0.5px)",
             duration: 0.6,
             ease: "power2.out",
           },

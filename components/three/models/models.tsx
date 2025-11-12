@@ -1,9 +1,11 @@
 "use client";
 
+import { useRef } from "react";
 import { useModelRefs } from "@/hooks/three/models/useModelRefs";
 import { usePointerInteraction } from "@/hooks/three/models/usePointerInteraction";
 import { useFloatingAnimation } from "@/hooks/three/models/useFloatingAnimation";
 import { useModelScroll } from "@/hooks/three/models/useModelScroll";
+import { useModelFade } from "@/hooks/three/models/useFade";
 
 interface ModelProps {
   scrollProgress: number;
@@ -14,6 +16,7 @@ export default function Model({ scrollProgress }: ModelProps) {
 
   const baseScale = 2.5;
   const minScaleFactor = 0.6;
+  const opacityRef = useRef({ value: 1 });
 
   const {
     isHovered,
@@ -24,8 +27,18 @@ export default function Model({ scrollProgress }: ModelProps) {
     handlePointerLeave,
   } = usePointerInteraction({ interactionRef });
 
-  useFloatingAnimation({ spinRef, interactionRef, isHovered, isDragging, scrollProgress, baseScale, minScaleFactor });
+  useFloatingAnimation({
+    spinRef,
+    interactionRef,
+    isHovered,
+    isDragging,
+    scrollProgress,
+    baseScale,
+    minScaleFactor,
+  });
+
   useModelScroll({ scrollProgress, modelGroupRef });
+  useModelFade({ scrollProgress, modelGroupRef, opacityRef });
 
   if (!cylinder001 || !boundingBox) return null;
 
