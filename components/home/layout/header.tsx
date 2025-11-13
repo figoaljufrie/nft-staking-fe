@@ -10,7 +10,7 @@ export default function Header() {
   const { networkName, isSupported } = useNetworkStatus();
 
   return (
-    <header className="w-full sticky top-0 z-40 bg-white backdrop-blur">
+    <header className="w-full sticky top-0 z-50 bg-white backdrop-blur">
       <nav className="max-w-screen mx-4 py-3 flex justify-between items-center text-black font-mono">
         <div className="flex items-center gap-4">
           <div className="font-bold text-lg">Staking Project</div>
