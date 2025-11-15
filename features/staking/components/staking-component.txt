@@ -1,1 +1,0 @@
-file skeleton for staking-component
