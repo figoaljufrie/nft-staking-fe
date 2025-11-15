@@ -134,6 +134,30 @@ export class NFTReadService {
     return owner as `0x${string}`;
   };
 
+  getMintedNFTs = async (start: number, limit: number) => {
+  this.ensureContractConnected();
+  
+  const totalSupply = await this.getTotalSupply();
+  const mintedCount = Number(totalSupply);
+  
+  const nfts = [];
+  const end = Math.min(start + limit, mintedCount);
+  
+  for (let i = start; i < end; i++) {
+    try {
+      const tokenId = BigInt(i);
+      const owner = await this.getOwnerOf(tokenId);
+      const uri = await this.getTokenURI(tokenId);
+      // Fetch metadata from IPFS/URL if needed
+      nfts.push({ tokenId, owner, uri });
+    } catch (err) {
+      console.warn(`Failed to fetch token ${i}:`, err);
+    }
+  }
+  
+  return { nfts, total: mintedCount };
+};
+
   getAllTokensOfOwner = async (owner: `0x${string}`): Promise<bigint[]> => {
     this.ensureContractConnected();
     if (!isValidAddress(owner)) throw new Error("Invalid wallet address");
