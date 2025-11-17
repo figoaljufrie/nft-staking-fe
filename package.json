@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@radix-ui/react-dropdown-menu": "^2.1.16",
     "@radix-ui/react-navigation-menu": "^1.2.14",
     "@rainbow-me/rainbowkit": "^2.2.9",
     "@react-three/drei": "^10.7.6",
