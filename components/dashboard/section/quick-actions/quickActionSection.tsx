@@ -15,6 +15,11 @@ export default function QuickActionsCard() {
       href: "/mint",
     },
     {
+      title: "EXPLORE_SYS", 
+      description: "Realm of system's atomic cards",
+      href: "/collection",
+    },
+    {
       title: "MY_ASSETS", 
       description: "View collection",
       href: "/assets",
